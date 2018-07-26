@@ -8,7 +8,7 @@ ALLOWED_HOSTS = ['criteri-backend.herokuapp.com', ]
 
 INSTALLED_APPS += []
 
-MIDDLEWARE += ['whitenoise.middleware.WhiteNoiseMiddlewares', ]
+MIDDLEWARE += ['whitenoise.middleware.WhiteNoiseMiddleware', ]
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
