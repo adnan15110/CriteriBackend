@@ -15,9 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from criteri.urls import router as criteri_router
+from UserAdministration.urls import user_admin_router
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/', include(criteri_router.urls)),
+    path('api/v1/', include(user_admin_router.urls)),
+    path('api/v1/auth/', include('rest_auth.urls')),
+    path('api/v1/registration/', include('rest_auth.registration.urls')),
     path('api-auth/', include('rest_framework.urls'))
 ]
