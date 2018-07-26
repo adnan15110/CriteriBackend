@@ -1,6 +1,8 @@
 from CriteriBackend.settings.base import *
 
 DEBUG = True
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = '6nehypd6v$a923!9)+6eqqpdl22swn-0_b=t6*kyf_q8e6o&l9'
 ALLOWED_HOSTS = []
 INSTALLED_APPS += []
 
