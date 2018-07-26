@@ -1,0 +1,1 @@
+web: gunicorn CriteriBackend.wsgi --log-file -
