@@ -4,7 +4,7 @@ from decouple import config
 
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['criteri-backend.herokuapp.com']
 
 INSTALLED_APPS += []
 
