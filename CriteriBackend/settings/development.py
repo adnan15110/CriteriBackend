@@ -1,13 +1,14 @@
 from CriteriBackend.settings.base import *
 
-MODULE='Development'
-
-DEBUG = os.environ.get('DEBUG', '')
-SECRET_KEY = os.environ.get('SECRET_KEY', '')
-
+TEST_DATA_DIR = os.path.join(BASE_DIR, 'TestData')
+DEBUG = True
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = '6nehypd6v$a923!9)+6eqqpdl22swn-0_b=t6*kyf_q8e6o&l9'
 ALLOWED_HOSTS = []
-
 INSTALLED_APPS += []
+
+# Database
+# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
@@ -16,20 +17,7 @@ DATABASES = {
     }
 }
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
-
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID', '')
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', '')
-AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME', '')
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
-
-DEFAULT_FILE_STORAGE = 'CriteriBackend.storage_backends.MediaStorage'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
