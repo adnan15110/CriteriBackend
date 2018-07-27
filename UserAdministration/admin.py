@@ -1,10 +1,18 @@
 from django.contrib import admin
-from UserAdministration.models import UserProfile
+from UserAdministration.models import Profile, Address
 
 
 # Register your models here.
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'bio')
+    list_display = ('user',)
 
 
-admin.site.register(UserProfile, UserProfileAdmin)
+admin.site.register(Profile, UserProfileAdmin)
+
+
+# Register your models here.
+class AddressAdmin(admin.ModelAdmin):
+    pass
+
+
+admin.site.register(Address, AddressAdmin)

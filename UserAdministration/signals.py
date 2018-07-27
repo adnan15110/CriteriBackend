@@ -1,13 +1,13 @@
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from UserAdministration.models import UserProfile
+from UserAdministration.models import Profile, Address
 
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        UserProfile.objects.create(user=instance)
+        Profile.objects.create(user=instance, address=Address.objects.create())
 
 
 @receiver(post_save, sender=User)
