@@ -4,8 +4,10 @@ from rest_framework.authtoken.models import Token
 from rest_framework import status
 from django.urls import reverse
 from django.contrib.auth.models import User
-from UserAdministration.models import UserProfile
+from UserAdministration.models import Profile
 from pprint import pprint
+from django.conf import settings
+import os
 
 
 class ViewTestCase(TestCase):
@@ -23,87 +25,146 @@ class ViewTestCase(TestCase):
         }
 
         self.response = self.client.post(
-            reverse('rest_register'),
+            reverse("rest_register"),
             data,
-            format='json'
+            format="json"
         )
 
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(User.objects.all().count(), 1)
-        self.assertEqual(UserProfile.objects.all().count(), 1)
+        self.assertEqual(Profile.objects.all().count(), 1)
 
     def test_api_can_update_user_and_profile(self):
         """
         Tests whether a user profile can be updated via patch method or not.
         :return:
         """
-        user = User.objects.create(username='akhan', password='test1234', email='akhan@gmail.com')
+        user = User.objects.create(username="akhan", password="test1234", email="akhan@gmail.com")
         self.token, created = Token.objects.get_or_create(user=user)
-        self.client.credentials(HTTP_AUTHORIZATION='Token {}'.format(self.token.key))
+        self.client.credentials(HTTP_AUTHORIZATION="Token {}".format(self.token.key))
 
         data = {
-            'user': {
-                'first_name': 'adnan',
-                'last_name': 'khan',
+            "user": {
+                "first_name": "adnan",
+                "last_name": "khan",
             },
-            'bio': 'Updated-Bio-test',
-            'location': 'Bangladesh'
+            "address": {
+                "apt_number": 678,
+                "street_number": 77,
+                "street_name": "University Crescent",
+                "neighbourhood": "",
+                "city": "Winnipeg",
+                "province": "Manitoba",
+                "postal_code": "R3T3N8",
+                "country": "Canada"
+            },
+            "headline": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "biography": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibul",
+            "website": "www.test.com",
+            "date_of_birth": "1988-03-01",
+            "profile_level": "ProfilePlus"
         }
 
         self.response = self.client.patch(
-            reverse('userprofile-detail', kwargs={'pk': user.profile.id}),
+            reverse("profile-detail", kwargs={"pk": user.profile.id}),
             data,
-            format='json'
+            format="json"
         )
 
         self.assertEqual(self.response.status_code, status.HTTP_200_OK)
 
-    def test_api_update_profile_only(self):
-        user = User.objects.create(username='akhan', password='test1234', email='akhan@gmail.com')
+    def test_api_can_upload_profile_images(self):
+        image_path = os.path.join(settings.TEST_DATA_DIR, "profile.png")
+        file = open(image_path, "rb")
+        small_image_path = os.path.join(settings.TEST_DATA_DIR, "small.png")
+        small_image_file = open(small_image_path, "rb")
+
+        user = User.objects.create(username="akhan", password="test1234", email="akhan@gmail.com")
         self.token, created = Token.objects.get_or_create(user=user)
-        self.client.credentials(HTTP_AUTHORIZATION='Token {}'.format(self.token.key))
+        self.client.credentials(HTTP_AUTHORIZATION="Token {}".format(self.token.key))
 
         data = {
-            'bio': 'Updated-Bio-test',
-            'location': 'Bangladesh'
+            "small_profile_image": file,
+            "large_profile_image": small_image_file
+        }
+        response = self.client.patch(reverse("profile-detail", kwargs={"pk": user.profile.id}), data, format="multipart")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_api_update_profile_only(self):
+        user = User.objects.create(username="akhan", password="test1234", email="akhan@gmail.com")
+        self.token, created = Token.objects.get_or_create(user=user)
+        self.client.credentials(HTTP_AUTHORIZATION="Token {}".format(self.token.key))
+
+        data = {
+            "headline": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "biography": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+            "website": "www.test.com",
+            "date_of_birth": "1988-03-01",
+            "profile_level": "ProfilePlus"
         }
 
         self.response = self.client.patch(
-            reverse('userprofile-detail', kwargs={'pk': user.profile.id}),
+            reverse("profile-detail", kwargs={"pk": user.profile.id}),
             data,
-            format='json'
+            format="json"
+        )
+
+        self.assertEqual(self.response.status_code, status.HTTP_200_OK)
+
+    def test_api_update_address_only(self):
+        user = User.objects.create(username="akhan", password="test1234", email="akhan@gmail.com")
+        self.token, created = Token.objects.get_or_create(user=user)
+        self.client.credentials(HTTP_AUTHORIZATION="Token {}".format(self.token.key))
+
+        data = {
+            "address": {
+                "apt_number": 678,
+                "street_number": 77,
+                "street_name": "University Crescent",
+                "neighbourhood": "",
+                "city": "Winnipeg",
+                "province": "Manitoba",
+                "postal_code": "R3T3N8",
+                "country": "Canada"
+            }
+        }
+
+        self.response = self.client.patch(
+            reverse("profile-detail", kwargs={"pk": user.profile.id}),
+            data,
+            format="json"
         )
 
         self.assertEqual(self.response.status_code, status.HTTP_200_OK)
 
     def test_api_update_user_only(self):
-        user = User.objects.create(username='akhan', password='test1234', email='akhan@gmail.com')
+        user = User.objects.create(username="akhan", password="test1234", email="akhan@gmail.com")
         self.token, created = Token.objects.get_or_create(user=user)
-        self.client.credentials(HTTP_AUTHORIZATION='Token {}'.format(self.token.key))
+        self.client.credentials(HTTP_AUTHORIZATION="Token {}".format(self.token.key))
 
         data = {
-            'user': {
-                'first_name': 'adnan',
-                'last_name': 'khan',
+            "user": {
+                "first_name": "adnan",
+                "last_name": "khan"
             }
         }
 
         self.response = self.client.patch(
-            reverse('userprofile-detail', kwargs={'pk': user.profile.id}),
+            reverse("profile-detail", kwargs={"pk": user.profile.id}),
             data,
-            format='json'
+            format="json"
         )
 
         self.assertEqual(self.response.status_code, status.HTTP_200_OK)
 
     def test_api_can_delete_user_and_profile(self):
-        user = User.objects.create(username='akhan', password='test1234', email='akhan@gmail.com')
+        user = User.objects.create(username="akhan", password="test1234", email="akhan@gmail.com")
         self.token, created = Token.objects.get_or_create(user=user)
-        self.client.credentials(HTTP_AUTHORIZATION='Token {}'.format(self.token.key))
+        self.client.credentials(HTTP_AUTHORIZATION="Token {}".format(self.token.key))
 
         self.response = self.client.delete(
-            reverse('userprofile-detail', kwargs={'pk': user.profile.id}),
-            format='json',
+            reverse("profile-detail", kwargs={"pk": user.profile.id}),
+            format="json",
             follow=True
         )
 
