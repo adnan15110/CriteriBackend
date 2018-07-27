@@ -1,5 +1,8 @@
 from CriteriBackend.settings.base import *
+
 MODULE='Test'
+TEST_DATA_DIR = os.path.join(BASE_DIR, 'TestData')
+
 DEBUG = os.environ.get('DEBUG', '')
 SECRET_KEY = os.environ.get('SECRET_KEY', '')
 
