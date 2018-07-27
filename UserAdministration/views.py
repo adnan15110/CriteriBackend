@@ -9,11 +9,13 @@ from django.contrib.auth.models import User
 
 
 class ProfileViewSet(ModelViewSet):
-    queryset = Profile.objects.all()
     serializer_class = UserProfileSerializer
     permission_classes = (IsAuthenticatedOrReadOnly, )
     authentication_classes = (TokenAuthentication, )
     parser_classes = (MultiPartParser, JSONParser)
+
+    def get_queryset(self):
+        return Profile.objects.filter(user=self.request.user)
 
 
 class UserViewSet(ModelViewSet):
