@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'allauth.socialaccount',
     'UserAdministration',
+    'Art',
     'storages',
 ]
 
@@ -103,6 +104,7 @@ USE_TZ = True
 # Rest Api related Settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': [
