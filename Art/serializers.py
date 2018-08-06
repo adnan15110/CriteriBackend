@@ -79,6 +79,7 @@ class ArtCollectionSerializer(HyperlinkedModelSerializer):
     url = HyperlinkedIdentityField(view_name="art-collection-detail")
     user = UserSerializer(many=False, read_only=True)
     collections = ArtworkTitleOnlySerializer(many=True, read_only=True)
+    artworks = ArtworkSerializer(many=True, read_only=True)
 
     class Meta:
         model = ArtCollection
@@ -87,6 +88,7 @@ class ArtCollectionSerializer(HyperlinkedModelSerializer):
                   'collections',
                   'description',
                   'user',
+                  'artworks'
                   )
         read_only_fields = (
             'created_at',
