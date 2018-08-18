@@ -16,7 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from UserAdministration.urls import user_admin_router
-from FollowWatchApp.urls import user_preference_router
+from UserFollowWatchApp.urls import user_preference_router
+from ArtworkLikeSaveApp.urls import artwork_preference_router
 from Art.urls import art_router
 from django.conf import settings
 from django.conf.urls.static import static
@@ -26,6 +27,7 @@ urlpatterns = [
     path('api/v1/', include(user_admin_router.urls)),
     path('api/v1/', include(art_router.urls)),
     path('api/v1/', include(user_preference_router.urls)),
+    path('api/v1/', include(artwork_preference_router.urls)),
     path('api/v1/auth/', include('rest_auth.urls')),
     path('api/v1/registration/', include('rest_auth.registration.urls')),
     path('api-auth/', include('rest_framework.urls'))

@@ -1,8 +1,8 @@
 from rest_framework.viewsets import GenericViewSet
 from  rest_framework import status
 from rest_framework import mixins
-from FollowWatchApp.serializers import UserFollowSerializer, UserWatchSerializer
-from FollowWatchApp.models import UserToUserModel
+from UserFollowWatchApp.serializers import UserFollowSerializer, UserWatchSerializer
+from UserFollowWatchApp.models import UserToUserModel
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.parsers import JSONParser, FormParser
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
@@ -59,7 +59,7 @@ class WatcherModelViewSet(GenericViewSet, mixins.ListModelMixin, mixins.CreateMo
     parser_classes = (FormParser, JSONParser)
 
     def get_queryset(self):
-        return UserToUserModel.objects.filter(activity_type=UserToUserModel.WATCH, base_user=self.request.user)
+        return UserToUserModel.objects.filter(activity_type=UserToUserModel.WATCH)
 
     @action(detail=False)
     def save_count(self, request):

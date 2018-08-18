@@ -4,7 +4,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework import status
 from django.urls import reverse
 from django.contrib.auth.models import User
-from FollowWatchApp.models import UserToUserModel
+from UserFollowWatchApp.models import UserToUserModel
 
 
 # Create your tests here.

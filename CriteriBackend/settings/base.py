@@ -39,8 +39,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'UserAdministration',
     'Art',
-    'FollowWatchApp',
-    'storages',
+    'UserFollowWatchApp',
+    'ArtworkLikeSaveApp',
+    'storages'
 ]
 
 MIDDLEWARE = [
