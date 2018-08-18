@@ -9,16 +9,16 @@ class UserToUserModel(models.Model):
     '''
     Saves user's like and save relationship
     '''
-    LIKE = 'Like'
-    SAVE = 'Save'
+    FOLLOW = 'Follow'
+    WATCH = 'watch'
     ACTION_TYPES = (
-        (LIKE, LIKE),
-        (SAVE, SAVE),
+        (FOLLOW, FOLLOW),
+        (WATCH, WATCH),
     )
 
-    base_user = models.ForeignKey(User, related_name='likes', on_delete=models.CASCADE)
+    base_user = models.ForeignKey(User, related_name='related', on_delete=models.CASCADE)
     activity_type = models.CharField(max_length=10, choices=ACTION_TYPES)
-    user = models.ForeignKey(User, related_name='liked_by', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='related_by', on_delete=models.CASCADE)
     created_at = models.DateField(auto_now_add=True)
 
     class Meta:

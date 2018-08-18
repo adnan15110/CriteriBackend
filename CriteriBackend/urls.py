@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from UserAdministration.urls import user_admin_router
-from LikeApp.urls import user_preference_router
+from FollowWatchApp.urls import user_preference_router
 from Art.urls import art_router
 from django.conf import settings
 from django.conf.urls.static import static
