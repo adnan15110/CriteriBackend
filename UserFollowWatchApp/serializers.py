@@ -1,6 +1,6 @@
 from rest_framework.serializers import HyperlinkedModelSerializer, ModelSerializer, ValidationError, HyperlinkedIdentityField
 from django.contrib.auth.models import User
-from FollowWatchApp.models import UserToUserModel
+from UserFollowWatchApp.models import UserToUserModel
 from rest_framework import status
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 

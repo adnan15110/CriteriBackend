@@ -1,5 +1,5 @@
 from rest_framework.routers import DefaultRouter
-from FollowWatchApp.views import FollowerModelViewSet, WatcherModelViewSet
+from UserFollowWatchApp.views import FollowerModelViewSet, WatcherModelViewSet
 
 user_preference_router=DefaultRouter()
 user_preference_router.register('follow', FollowerModelViewSet, base_name='user-follow')

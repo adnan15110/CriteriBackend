@@ -10,7 +10,7 @@ class UserToUserModel(models.Model):
     Saves user's like and save relationship
     '''
     FOLLOW = 'Follow'
-    WATCH = 'watch'
+    WATCH = 'Watch'
     ACTION_TYPES = (
         (FOLLOW, FOLLOW),
         (WATCH, WATCH),
