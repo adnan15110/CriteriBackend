@@ -1,4 +1,5 @@
 from django.test import TestCase
+from unittest import skip
 from rest_framework.test import APIClient
 from rest_framework.authtoken.models import Token
 from rest_framework import status
@@ -34,6 +35,20 @@ class ViewTestCase(TestCase):
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(User.objects.all().count(), 1)
         self.assertEqual(Profile.objects.all().count(), 1)
+
+    def test_api_get_user_profile(self):
+        user_1 = User.objects.create(username="akhan1", password="test12345", email="akhan1@gmail.com")
+        user_2 = User.objects.create(username="akhan", password="test1234", email="akhan@gmail.com")
+        self.token, created = Token.objects.get_or_create(user=user_2)
+        self.client.credentials(HTTP_AUTHORIZATION="Token {}".format(self.token.key))
+
+        self.response = self.client.get(
+            reverse("profile-list"),
+            format="json"
+        )
+
+        self.assertEqual(self.response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(self.response.data), 1)
 
     def test_api_can_update_user_and_profile(self):
         """
@@ -74,6 +89,7 @@ class ViewTestCase(TestCase):
 
         self.assertEqual(self.response.status_code, status.HTTP_200_OK)
 
+    @skip("skipping the image upload test")
     def test_api_can_upload_profile_images(self):
         image_path = os.path.join(settings.TEST_DATA_DIR, "profile.png")
         file = open(image_path, "rb")
