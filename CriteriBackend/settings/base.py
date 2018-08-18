@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'UserAdministration',
     'Art',
-    'LikeApp',
+    'FollowWatchApp',
     'storages',
 ]
 
