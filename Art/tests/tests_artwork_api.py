@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from Art.models import ArtCategory, Artwork, ArtCollection
 
 
-@skip('Already tested')
+@skip("Already tested")
 class ArtworkApiTestCase(TestCase):
     """ Tests User Profile Model"""
 
@@ -21,13 +21,13 @@ class ArtworkApiTestCase(TestCase):
     # ARTWORK
     def test_api_can_create_artwork(self):
         data = {
-            # 'artwork_image': ''
-            'width': 100,
-            'height': 300,
-            'unit': 'inch',
-            'description': 'Artwork description',
-            'categories': [],
-            'title': 'Rural Landscape',
+            # "artwork_image": ""
+            "width": 100,
+            "height": 300,
+            "unit": "inch",
+            "description": "Artwork description",
+            "categories": [],
+            "title": "Rural Landscape",
 
         }
         self.response = self.client.post(
@@ -41,16 +41,16 @@ class ArtworkApiTestCase(TestCase):
     def test_api_can_create_artwork_with_category(self):
         categories = [
             {
-                'category_name': 'Painting',
-                'details': 'painting category'
+                "category_name": "Painting",
+                "details": "painting category"
             },
             {
-                'category_name': 'Architecture',
-                'details': 'Architecture'
+                "category_name": "Architecture",
+                "details": "Architecture"
             },
             {
-                'category_name': 'Oil Painting',
-                'details': 'Oil painting'
+                "category_name": "Oil Painting",
+                "details": "Oil painting"
             },
         ]
 
@@ -58,14 +58,14 @@ class ArtworkApiTestCase(TestCase):
             ArtCategory.objects.create(**cat)
 
         data = {
-            # 'artwork_image': ''
-            "categories": [{"category_name": "Painting"}, {"category_name": "Architecture"}],
-            'width': 100,
-            'height': 300,
-            'unit': 'inch',
-            'description': 'Artwork description',
-            'categories': [],
-            'title': 'Rural Landscape',
+            # "artwork_image": ""
+            "categories": [],
+            "width": 100,
+            "height": 300,
+            "unit": "inch",
+            "description": "Artwork description",
+            "categories": [],
+            "title": "Rural Landscape",
         }
         self.response = self.client.post(
             reverse("artwork-list"),
@@ -76,14 +76,14 @@ class ArtworkApiTestCase(TestCase):
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
 
     def test_api_can_update_artwork(self):
-        artwork = Artwork.objects.create(user=self.user, title='Rural Landscape', description='Drawing details')
+        artwork = Artwork.objects.create(user=self.user, title="Rural Landscape", description="Drawing details")
 
         data = {
-            # 'artwork_image': ''
-            'width': 100,
-            'height': 300,
-            'unit': 'inch',
-            'description': 'Artwork description',
+            # "artwork_image": ""
+            "width": 100,
+            "height": 300,
+            "unit": "inch",
+            "description": "Artwork description",
         }
 
         self.response = self.client.patch(
@@ -95,7 +95,7 @@ class ArtworkApiTestCase(TestCase):
         self.assertEqual(self.response.status_code, status.HTTP_200_OK)
 
     def test_api_can_delete_artwork(self):
-        artwork = Artwork.objects.create(user=self.user, title='Rural Landscape', description='Drawing details')
+        artwork = Artwork.objects.create(user=self.user, title="Rural Landscape", description="Drawing details")
 
         self.response = self.client.delete(
             reverse("artwork-detail", kwargs={"pk": artwork.id}),
@@ -105,19 +105,19 @@ class ArtworkApiTestCase(TestCase):
         self.assertEqual(self.response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_api_can_update_artwork_with_category(self):
-        artwork = Artwork.objects.create(user=self.user, title='Rural Landscape', description='Drawing details')
+        artwork = Artwork.objects.create(user=self.user, title="Rural Landscape", description="Drawing details")
         categories = [
             {
-                'category_name': 'Painting',
-                'details': 'painting category'
+                "category_name": "Painting",
+                "details": "painting category"
             },
             {
-                'category_name': 'Architecture',
-                'details': 'Architecture'
+                "category_name": "Architecture",
+                "details": "Architecture"
             },
             {
-                'category_name': 'Oil Painting',
-                'details': 'Oil painting'
+                "category_name": "Oil Painting",
+                "details": "Oil painting"
             },
         ]
 
@@ -125,9 +125,9 @@ class ArtworkApiTestCase(TestCase):
             ArtCategory.objects.create(**cat)
 
         data = {
-            # 'artwork_image': ''
-            'dimension': '100x100 inch',
-            'description': 'Artwork description',
+            # "artwork_image": ""
+            "dimension": "100x100 inch",
+            "description": "Artwork description",
             "categories": [{"category_name": "Painting"}, {"category_name": "Architecture"}]
         }
         self.response = self.client.patch(
@@ -141,12 +141,12 @@ class ArtworkApiTestCase(TestCase):
     #  CATEGORY ADD REMOVE TEST
     def test_api_can_add_category_to_artwork(self):
         data = {
-            # 'artwork_image': ''
-            'width': 100,
-            'height': 300,
-            'unit': 'inch',
-            'description': 'Artwork description',
-            'title': 'Rural Landscape',
+            # "artwork_image": ""
+            "width": 100,
+            "height": 300,
+            "unit": "inch",
+            "description": "Artwork description",
+            "title": "Rural Landscape",
 
         }
         artwork = Artwork.objects.create(**data, user=self.user)
@@ -154,16 +154,16 @@ class ArtworkApiTestCase(TestCase):
 
         categories = [
             {
-                'category_name': 'Painting',
-                'details': 'painting category'
+                "category_name": "Painting",
+                "details": "painting category"
             },
             {
-                'category_name': 'Architecture',
-                'details': 'Architecture'
+                "category_name": "Architecture",
+                "details": "Architecture"
             },
             {
-                'category_name': 'Oil Painting',
-                'details': 'Oil painting'
+                "category_name": "Oil Painting",
+                "details": "Oil painting"
             },
         ]
 
@@ -175,16 +175,16 @@ class ArtworkApiTestCase(TestCase):
 
         category_data = [
             {
-                'id': category_objs[0].id,
-                'category_name': category_objs[0].category_name
+                "id": category_objs[0].id,
+                "category_name": category_objs[0].category_name
             },
             {
-                'id': category_objs[1].id,
-                'category_name': category_objs[1].category_name
+                "id": category_objs[1].id,
+                "category_name": category_objs[1].category_name
             },
             {
-                'id': category_objs[2].id,
-                'category_name': category_objs[2].category_name
+                "id": category_objs[2].id,
+                "category_name": category_objs[2].category_name
             },
         ]
 
@@ -197,12 +197,12 @@ class ArtworkApiTestCase(TestCase):
 
     def test_api_can_add_category_to_artwork_with_existing_category(self):
         data = {
-            # 'artwork_image': ''
-            'width': 100,
-            'height': 300,
-            'unit': 'inch',
-            'description': 'Artwork description',
-            'title': 'Rural Landscape',
+            # "artwork_image": ""
+            "width": 100,
+            "height": 300,
+            "unit": "inch",
+            "description": "Artwork description",
+            "title": "Rural Landscape",
 
         }
         artwork = Artwork.objects.create(**data, user=self.user)
@@ -210,16 +210,16 @@ class ArtworkApiTestCase(TestCase):
 
         categories = [
             {
-                'category_name': 'Painting',
-                'details': 'painting category'
+                "category_name": "Painting",
+                "details": "painting category"
             },
             {
-                'category_name': 'Architecture',
-                'details': 'Architecture'
+                "category_name": "Architecture",
+                "details": "Architecture"
             },
             {
-                'category_name': 'Oil Painting',
-                'details': 'Oil painting'
+                "category_name": "Oil Painting",
+                "details": "Oil painting"
             },
         ]
 
@@ -234,12 +234,12 @@ class ArtworkApiTestCase(TestCase):
 
         category_data = [
             {
-                'id': category_objs[1].id,
-                'category_name': category_objs[1].category_name
+                "id": category_objs[1].id,
+                "category_name": category_objs[1].category_name
             },
             {
-                'id': category_objs[2].id,
-                'category_name': category_objs[2].category_name
+                "id": category_objs[2].id,
+                "category_name": category_objs[2].category_name
             },
         ]
 
@@ -253,12 +253,12 @@ class ArtworkApiTestCase(TestCase):
     def test_api_can_delete_category_from_artwork(self):
 
         data = {
-            # 'artwork_image': ''
-            'width': 100,
-            'height': 300,
-            'unit': 'inch',
-            'description': 'Artwork description',
-            'title': 'Rural Landscape',
+            # "artwork_image": ""
+            "width": 100,
+            "height": 300,
+            "unit": "inch",
+            "description": "Artwork description",
+            "title": "Rural Landscape",
 
         }
         artwork = Artwork.objects.create(**data, user=self.user)
@@ -266,16 +266,16 @@ class ArtworkApiTestCase(TestCase):
 
         categories = [
             {
-                'category_name': 'Painting',
-                'details': 'painting category'
+                "category_name": "Painting",
+                "details": "painting category"
             },
             {
-                'category_name': 'Architecture',
-                'details': 'Architecture'
+                "category_name": "Architecture",
+                "details": "Architecture"
             },
             {
-                'category_name': 'Oil Painting',
-                'details': 'Oil painting'
+                "category_name": "Oil Painting",
+                "details": "Oil painting"
             },
         ]
 
@@ -288,12 +288,12 @@ class ArtworkApiTestCase(TestCase):
 
         category_data = [
             {
-                'id': category_obj[1].id,
-                'category_name': category_obj[1].category_name
+                "id": category_obj[1].id,
+                "category_name": category_obj[1].category_name
             },
             {
-                'id': category_obj[2].id,
-                'category_name': category_obj[2].category_name
+                "id": category_obj[2].id,
+                "category_name": category_obj[2].category_name
             },
         ]
 
