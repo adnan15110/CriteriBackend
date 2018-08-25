@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from Art.models import ArtCategory, Artwork, ArtCollection
 
 
-@skip('Already tested')
+@skip("Already tested")
 class ArtCollectionTestCase(TestCase):
     """ Tests User Profile Model"""
 
@@ -21,9 +21,9 @@ class ArtCollectionTestCase(TestCase):
     # ARTWORK COLLECTION
     def test_api_can_create_artwork_collection(self):
         data = {
-            'title': 'My Personal Collection',
-            'description': 'Collection of my Artwork',
-            'artworks': []
+            "title": "My Personal Collection",
+            "description": "Collection of my Artwork",
+            "artworks": []
         }
 
         self.response = self.client.post(
@@ -34,10 +34,10 @@ class ArtCollectionTestCase(TestCase):
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
 
     def test_api_can_update_artwork_collection(self):
-        collection = ArtCollection.objects.create(title='my art collection', user=self.user)
+        collection = ArtCollection.objects.create(title="my art collection", user=self.user)
         collection.save()
         data = {
-            'title': 'My Personal Collection --updated',
+            "title": "My Personal Collection --updated",
         }
 
         self.response = self.client.put(
@@ -48,7 +48,7 @@ class ArtCollectionTestCase(TestCase):
         self.assertEqual(self.response.status_code, status.HTTP_200_OK)
 
     def test_api_can_delete_artwork_collection(self):
-        collection = ArtCollection.objects.create(title='my art collection', user=self.user)
+        collection = ArtCollection.objects.create(title="my art collection", user=self.user)
         collection.save()
 
         self.response = self.client.delete(
@@ -60,12 +60,12 @@ class ArtCollectionTestCase(TestCase):
     # add Artwork to Collection
     def test_api_can_add_artwork_to_collection(self):
         data = {
-            # 'artwork_image': ''
-            'width': 100,
-            'height': 300,
-            'unit': 'inch',
-            'description': 'Artwork description',
-            'title': 'Rural Landscape',
+            # "artwork_image": ""
+            "width": 100,
+            "height": 300,
+            "unit": "inch",
+            "description": "Artwork description",
+            "title": "Rural Landscape",
 
         }
         artwork = Artwork.objects.create(**data, user=self.user)
@@ -74,16 +74,16 @@ class ArtCollectionTestCase(TestCase):
         artwork1 = Artwork.objects.create(**data, user=self.user)
         artwork1.save()
 
-        collection = ArtCollection.objects.create(title='my art collection', user=self.user)
+        collection = ArtCollection.objects.create(title="my art collection", user=self.user)
         collection.save()
         collection_data = [
             {
-                'id': artwork.id,
-                'title': artwork.title
+                "id": artwork.id,
+                "title": artwork.title
             },
             {
-                'id': artwork1.id,
-                'title': artwork1.title
+                "id": artwork1.id,
+                "title": artwork1.title
             }
         ]
 
@@ -96,12 +96,12 @@ class ArtCollectionTestCase(TestCase):
 
     def test_api_can_add_artwork_to_collection_with_existing_artwork(self):
         data = {
-            # 'artwork_image': ''
-            'width': 100,
-            'height': 300,
-            'unit': 'inch',
-            'description': 'Artwork description',
-            'title': 'Rural Landscape',
+            # "artwork_image": ""
+            "width": 100,
+            "height": 300,
+            "unit": "inch",
+            "description": "Artwork description",
+            "title": "Rural Landscape",
 
         }
         artwork = Artwork.objects.create(**data, user=self.user)
@@ -110,14 +110,14 @@ class ArtCollectionTestCase(TestCase):
         artwork1 = Artwork.objects.create(**data, user=self.user)
         artwork1.save()
 
-        collection = ArtCollection.objects.create(title='my art collection', user=self.user)
+        collection = ArtCollection.objects.create(title="my art collection", user=self.user)
         collection.save()
         collection.artworks.add(artwork1)
 
         collection_data = [
             {
-                'id': artwork.id,
-                'title': artwork.title
+                "id": artwork.id,
+                "title": artwork.title
             },
         ]
 
@@ -130,12 +130,12 @@ class ArtCollectionTestCase(TestCase):
 
     def test_api_can_delete_artwork_from_collection(self):
         data = {
-            # 'artwork_image': ''
-            'width': 100,
-            'height': 300,
-            'unit': 'inch',
-            'description': 'Artwork description',
-            'title': 'Rural Landscape',
+            # "artwork_image": ""
+            "width": 100,
+            "height": 300,
+            "unit": "inch",
+            "description": "Artwork description",
+            "title": "Rural Landscape",
 
         }
         artwork = Artwork.objects.create(**data, user=self.user)
@@ -144,14 +144,14 @@ class ArtCollectionTestCase(TestCase):
         artwork1 = Artwork.objects.create(**data, user=self.user)
         artwork1.save()
 
-        collection = ArtCollection.objects.create(title='my art collection', user=self.user)
+        collection = ArtCollection.objects.create(title="my art collection", user=self.user)
         collection.save()
         collection.artworks.add(artwork1, artwork)
 
         collection_data = [
             {
-                'id': artwork1.id,
-                'title': artwork1.title
+                "id": artwork1.id,
+                "title": artwork1.title
             }
         ]
 
