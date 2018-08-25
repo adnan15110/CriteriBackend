@@ -59,7 +59,7 @@ class ArtworkSaveModelViewSet(GenericViewSet, mixins.ListModelMixin, mixins.Crea
     parser_classes = (FormParser, JSONParser)
 
     def get_queryset(self):
-        return UserToArtworkModel.objects.filter(activity_type=UserToArtworkModel.SAVE)
+        return UserToArtworkModel.objects.filter(activity_type=UserToArtworkModel.SAVE, user=self.request.user)
 
     @action(detail=False)
     def save_count(self, request):
