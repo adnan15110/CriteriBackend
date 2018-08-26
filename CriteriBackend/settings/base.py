@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'UserFollowWatchApp',
     'ArtworkLikeSaveApp',
     'Report',
+    'FrontendApi',
     'storages'
 ]
 
