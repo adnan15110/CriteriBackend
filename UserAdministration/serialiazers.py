@@ -6,7 +6,7 @@ from UserAdministration.models import Profile, Address
 class UserSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ('url', 'username', 'first_name', 'last_name', 'email')
+        fields = ('url', 'id', 'username', 'first_name', 'last_name', 'email')
 
 
 class AddressSerializer(HyperlinkedModelSerializer):
