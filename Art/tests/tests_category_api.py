@@ -7,8 +7,6 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from Art.models import ArtCategory, Artwork, ArtCollection
 
-
-@skip('Already tested')
 class ArtCategoryApiTestCase(TestCase):
     """ Tests User Profile Model"""
 
