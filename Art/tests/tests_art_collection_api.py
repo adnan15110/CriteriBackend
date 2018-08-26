@@ -8,7 +8,6 @@ from django.contrib.auth.models import User
 from Art.models import ArtCategory, Artwork, ArtCollection
 
 
-@skip("Already tested")
 class ArtCollectionTestCase(TestCase):
     """ Tests User Profile Model"""
 

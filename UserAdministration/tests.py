@@ -11,7 +11,6 @@ from django.conf import settings
 import os
 
 
-@skip('Already tested')
 class ViewTestCase(TestCase):
     """ Tests User Profile Model"""
 
