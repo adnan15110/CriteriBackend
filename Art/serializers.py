@@ -117,3 +117,17 @@ class ArtCollectionSerializer(HyperlinkedModelSerializer):
         read_only_fields = (
             'created_at',
             'last_updated_at',)
+
+
+class ArtCollectionViewOnlySerializer(HyperlinkedModelSerializer):
+    url = HyperlinkedIdentityField(view_name="art-collection-detail")
+
+    class Meta:
+        model = ArtCollection
+        fields = ('url',
+                  'title',
+                  'description',
+                  )
+        read_only_fields = (
+            'created_at',
+            'last_updated_at',)
