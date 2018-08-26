@@ -1,7 +1,9 @@
-from rest_framework.serializers import HyperlinkedModelSerializer, HyperlinkedIdentityField, ModelSerializer
+from rest_framework.serializers import HyperlinkedModelSerializer, HyperlinkedIdentityField, ModelSerializer, \
+    SerializerMethodField
 from Art.models import Artwork, ArtCategory, ArtCollection
 from UserAdministration.serialiazers import UserSerializer
 from django.core.exceptions import ObjectDoesNotExist
+from ArtworkLikeSaveApp.models import UserToArtworkModel
 
 
 class ArtCategorySerializer(HyperlinkedModelSerializer):
@@ -27,13 +29,17 @@ class ArtworkTitleOnlySerializer(ModelSerializer):
 
 class ArtworkSerializer(HyperlinkedModelSerializer):
     user = UserSerializer(many=False, read_only=True)
-    categories = ArtCategoryNameOnlySerializer(many=True, read_only=False)
+    categories = SerializerMethodField(read_only=False)
+    like = SerializerMethodField(read_only=True)
+    saved = SerializerMethodField(read_only=True)
 
     class Meta:
         model = Artwork
         fields = ('url',
                   'image',
                   'title',
+                  'like',
+                  'saved',
                   'categories',
                   'width',
                   'height',
@@ -44,6 +50,24 @@ class ArtworkSerializer(HyperlinkedModelSerializer):
         read_only_fields = (
             'created_at',
             'last_updated_at',)
+
+    def get_categories(self, obj):
+        data = []
+        for category in obj.categories.all():
+            data.append(category.category_name)
+        return data
+
+    def get_like(self, obj):
+        like_count = UserToArtworkModel.objects.filter(activity_type=UserToArtworkModel.LIKE, artwork=obj).count()
+
+        if like_count > 0:
+            return {'liked': True, 'like_count': like_count}
+        else:
+            return {'liked': False, 'like_count': like_count}
+
+    def get_saved(self, obj):
+        save_count = UserToArtworkModel.objects.filter(activity_type=UserToArtworkModel.SAVE, artwork=obj).count()
+        return True if save_count > 0 else False
 
     def create(self, validated_data):
         categories = validated_data.pop('categories', [])
