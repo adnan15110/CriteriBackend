@@ -20,6 +20,7 @@ from UserFollowWatchApp.urls import user_preference_router
 from ArtworkLikeSaveApp.urls import artwork_preference_router
 from Report.urls import report_router
 from Art.urls import art_router
+from FrontendApi.urls import urlpatterns as frontend_api_url
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -34,6 +35,8 @@ urlpatterns = [
     path('api/v1/registration/', include('rest_auth.registration.urls')),
     path('api-auth/', include('rest_framework.urls'))
 ]
+
+urlpatterns += frontend_api_url
 
 if settings.DEBUG and settings.MODULE == 'Test':
     urlpatterns += static(settings.STATIC_URL,
