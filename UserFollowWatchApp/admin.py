@@ -1,3 +1,9 @@
 from django.contrib import admin
+from UserFollowWatchApp.models import UserToUserModel
 
-# Register your models here.
+
+class UserToUserModelAdmin(admin.ModelAdmin):
+    pass
+
+
+admin.site.register(UserToUserModel, UserToUserModelAdmin)
