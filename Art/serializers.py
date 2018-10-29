@@ -36,6 +36,7 @@ class ArtworkSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Artwork
         fields = ('url',
+                  'id',
                   'image',
                   'title',
                   'like',

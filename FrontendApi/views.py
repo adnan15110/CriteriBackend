@@ -50,7 +50,7 @@ class ProfileDetailApiView(APIView):
             try:
                 if username and id:
                     user = User.objects.get(pk=id, username=username)
-                    data['user']=UserProfileSerializer(user.profile, context={'request': request}).data
+                    data['profile']=UserProfileSerializer(user.profile, context={'request': request}).data
 
                     data["like_count"] = UserToArtworkModel.objects.filter(activity_type=UserToArtworkModel.LIKE,
                                                                            artwork__user=user).count()
