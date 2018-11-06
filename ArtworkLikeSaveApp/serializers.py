@@ -1,16 +1,25 @@
+import ipdb
 from rest_framework.serializers import HyperlinkedModelSerializer, ModelSerializer, ValidationError, \
-    HyperlinkedIdentityField
+    HyperlinkedIdentityField, SerializerMethodField
 from django.contrib.auth.models import User
 from ArtworkLikeSaveApp.models import UserToArtworkModel
 from Art.models import Artwork
 from rest_framework import status
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+from UserAdministration.models import Profile
+from UserAdministration.serialiazers import UserProfileSerializer
+
 
 
 class UserRelationSerializer(HyperlinkedModelSerializer):
+    image = SerializerMethodField(read_only=False)
     class Meta:
         model = User
-        fields = ('url', 'username')
+        fields = ('url', 'username', 'image')
+
+    def get_image(self, obj):
+        data = UserProfileSerializer(obj.profile, context={'request': self.context['request']}).data
+        return data['small_profile_image']
 
 
 class ArtworkRelationSerializer(HyperlinkedModelSerializer):
