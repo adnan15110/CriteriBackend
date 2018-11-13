@@ -1,4 +1,3 @@
-import ipdb
 from rest_framework.serializers import HyperlinkedModelSerializer, ModelSerializer, ValidationError, \
     HyperlinkedIdentityField, SerializerMethodField
 from django.contrib.auth.models import User
