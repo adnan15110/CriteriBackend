@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'ArtworkLikeSaveApp',
     'Report',
     'FrontendApi',
-    'storages'
+    'storages',
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [
@@ -108,8 +109,9 @@ USE_TZ = True
 # Rest Api related Settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated'
@@ -118,3 +120,25 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.JSONParser',
     )
 }
+SWAGGER_SETTINGS = {
+    'SHOW_REQUEST_HEADERS': True,
+    'SUPPORTED_SUBMIT_METHODS': [
+        'get',
+        'post',
+        'put',
+        'patch',
+        'delete',
+    ],
+    'USE_SESSION_AUTH': True,
+    'SECURITY_DEFINITIONS': {
+        'api_key': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization'
+        }
+    },
+}
+LOGIN_REDIRECT_URL='/'
+LOGIN_URL = 'rest_framework:login'
+LOGOUT_URL = 'rest_framework:logout'
+
