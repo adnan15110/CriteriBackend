@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import TokenAuthentication, BasicAuthentication
+from rest_framework.authentication import TokenAuthentication, BasicAuthentication, SessionAuthentication
 from Art.serializers import ArtworkSerializer
 from UserAdministration.serialiazers import UserSerializer, UserProfileSerializer
 from Art.models import Artwork, ArtCollection
@@ -18,17 +18,23 @@ from django.core.exceptions import ObjectDoesNotExist
 
 
 class MainFeedView(ListAPIView):
+    """
+    Lists all the artworks created by the logged user and order by created date.
+    """
     serializer_class = ArtworkSerializer
     permission_classes = (IsAuthenticated,)
-    authentication_classes = (TokenAuthentication, BasicAuthentication)
+    authentication_classes = (TokenAuthentication, BasicAuthentication, SessionAuthentication)
 
     def get_queryset(self):
         return Artwork.objects.filter(user=self.request.user).order_by('created_at')
 
 
 class UserDetailApiView(APIView):
+    """
+    Returns logged in users details.
+    """
     authentication_classes = (IsAuthenticated,)
-    authentication_classes = (TokenAuthentication, BasicAuthentication)
+    authentication_classes = (TokenAuthentication, BasicAuthentication, SessionAuthentication)
 
     def get(self, request, format=None):
         if request.user:
@@ -39,10 +45,23 @@ class UserDetailApiView(APIView):
 
 
 class ProfileDetailApiView(APIView):
+    """
+    Returns profile details of any user profile
+    """
     authentication_classes = (IsAuthenticated,)
-    authentication_classes = (TokenAuthentication, BasicAuthentication)
+    authentication_classes = (TokenAuthentication, BasicAuthentication, SessionAuthentication)
 
     def post(self, request, format=None):
+        """
+        Returns profile details for requested user.
+        :param request:
+        {
+            'id':number # user id
+            'username': string # user name
+        }
+        :param format: None
+        :return:
+        """
         data={}
         if request.data:
             id = request.data.pop('id', None)

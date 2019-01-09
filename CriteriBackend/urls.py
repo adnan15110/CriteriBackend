@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.conf.urls import url
 from django.urls import path, include
 from UserAdministration.urls import user_admin_router
 from UserFollowWatchApp.urls import user_preference_router
@@ -23,8 +24,12 @@ from Art.urls import art_router
 from FrontendApi.urls import urlpatterns as frontend_api_url
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework_swagger.views import get_swagger_view
+schema_view = get_swagger_view(title='criteri API')
 
 urlpatterns = [
+    url(r'docs$', schema_view),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
     path('api/v1/', include(user_admin_router.urls)),
     path('api/v1/', include(art_router.urls)),
