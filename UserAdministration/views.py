@@ -62,7 +62,7 @@ class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (IsAuthenticatedOrReadOnly, )
-    authentication_classes = (authentication.TokenAuthentication, authentication.BasicAuthentication)
+    authentication_classes = (authentication.TokenAuthentication, authentication.SessionAuthentication, authentication.BasicAuthentication)
     parser_classes = (JSONParser, FormParser)
 
 
@@ -88,5 +88,5 @@ class AddressViewSet(ModelViewSet):
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
     permission_classes = (IsAuthenticatedOrReadOnly, )
-    authentication_classes = (authentication.TokenAuthentication, authentication.BasicAuthentication)
+    authentication_classes = (authentication.TokenAuthentication, authentication.SessionAuthentication, authentication.BasicAuthentication)
     parser_classes = (JSONParser, FormParser)
