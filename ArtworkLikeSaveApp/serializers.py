@@ -79,10 +79,14 @@ class ArtworkSaveSerializer(ModelSerializer):
         try:
             artwork_to_save =Artwork.objects.get(pk=artwork_id_to_save, title=artwork_title_to_save)
             if user:
-                obj = UserToArtworkModel(user=user, activity_type=UserToArtworkModel.SAVE, artwork=artwork_to_save)
-                obj.save()
-            else:
-                raise ValidationError('Save already exists', code=status.HTTP_200_OK)
+                obj_counts = UserToArtworkModel.objects.filter(user=user,
+                                                               activity_type=UserToArtworkModel.SAVE,
+                                                               artwork=artwork_to_save).count()
+                if obj_counts == 0:
+                    obj = UserToArtworkModel(user=user, activity_type=UserToArtworkModel.LIKE, artwork=artwork_to_save)
+                    obj.save()
+                else:
+                    raise ValidationError('Save already exists', code=status.HTTP_200_OK)
         except ObjectDoesNotExist:
             raise ValidationError('Artwork not found', code=status.HTTP_204_NO_CONTENT)
         except MultipleObjectsReturned:
