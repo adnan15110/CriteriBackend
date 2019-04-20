@@ -10,6 +10,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+
+
 # Create your views here.
 
 
@@ -39,7 +41,8 @@ class ArtworkLikeModelViewSet(GenericViewSet, mixins.ListModelMixin, mixins.Crea
         """
         returns the like count of logged user's artwork
         """
-        total = UserToArtworkModel.objects.filter(activity_type=UserToArtworkModel.LIKE, artwork__user=request.user).count()
+        total = UserToArtworkModel.objects.filter(activity_type=UserToArtworkModel.LIKE,
+                                                  artwork__user=request.user).count()
         return Response({'likes': total})
 
     @action(detail=False)
@@ -67,11 +70,11 @@ class ArtworkLikeModelViewSet(GenericViewSet, mixins.ListModelMixin, mixins.Crea
         try:
             if artwork_id and artwork_title:
                 artwork = Artwork.objects.get(pk=artwork_id, title=artwork_title)
-                obj = UserToArtworkModel.objects.get(activity_type=UserToArtworkModel.LIKE,
-                                                     user=request.user,
-                                                     artwork=artwork)
-            if obj:
-                obj.delete()
+                objs = UserToArtworkModel.objects.filter(activity_type=UserToArtworkModel.LIKE,
+                                                         user=request.user,
+                                                         artwork=artwork)
+            if objs:
+                objs.delete()
                 return Response(status=status.HTTP_200_OK)
             else:
                 return Response(status=status.HTTP_204_NO_CONTENT)
@@ -129,11 +132,11 @@ class ArtworkSaveModelViewSet(GenericViewSet, mixins.ListModelMixin, mixins.Crea
         try:
             if artwork_id and artwork_title:
                 artwork = Artwork.objects.get(pk=artwork_id, title=artwork_title)
-                obj = UserToArtworkModel.objects.get(activity_type=UserToArtworkModel.SAVE,
-                                                     user=request.user,
-                                                     artwork=artwork)
-            if obj:
-                obj.delete()
+                objs = UserToArtworkModel.objects.get(activity_type=UserToArtworkModel.SAVE,
+                                                      user=request.user,
+                                                      artwork=artwork)
+            if objs:
+                objs.delete()
                 return Response(status=status.HTTP_200_OK)
             else:
                 return Response(status=status.HTTP_204_NO_CONTENT)

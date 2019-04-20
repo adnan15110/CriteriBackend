@@ -43,10 +43,14 @@ class ArtworkLikeSerializer(ModelSerializer):
         artwork_title_to_like = self.initial_data.pop('artwork_title', None)
 
         try:
-            artwork_to_like =Artwork.objects.get(pk=artwork_id_to_like, title=artwork_title_to_like)
+            artwork_to_like = Artwork.objects.get(pk=artwork_id_to_like, title=artwork_title_to_like)
             if user:
-                obj = UserToArtworkModel(user=user, activity_type=UserToArtworkModel.LIKE, artwork=artwork_to_like)
-                obj.save()
+                obj_counts = UserToArtworkModel.objects.filter(user=user,
+                                                               activity_type=UserToArtworkModel.LIKE,
+                                                               artwork=artwork_to_like).count()
+                if obj_counts == 0:
+                    obj = UserToArtworkModel(user=user, activity_type=UserToArtworkModel.LIKE, artwork=artwork_to_like)
+                    obj.save()
         except ObjectDoesNotExist:
             raise ValidationError('Artwork not found', code=status.HTTP_204_NO_CONTENT)
         except MultipleObjectsReturned:
