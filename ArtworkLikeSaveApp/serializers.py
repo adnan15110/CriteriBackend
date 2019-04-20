@@ -51,6 +51,8 @@ class ArtworkLikeSerializer(ModelSerializer):
                 if obj_counts == 0:
                     obj = UserToArtworkModel(user=user, activity_type=UserToArtworkModel.LIKE, artwork=artwork_to_like)
                     obj.save()
+                else:
+                    raise ValidationError('Like already exists', code=status.HTTP_200_OK)
         except ObjectDoesNotExist:
             raise ValidationError('Artwork not found', code=status.HTTP_204_NO_CONTENT)
         except MultipleObjectsReturned:
@@ -79,6 +81,8 @@ class ArtworkSaveSerializer(ModelSerializer):
             if user:
                 obj = UserToArtworkModel(user=user, activity_type=UserToArtworkModel.SAVE, artwork=artwork_to_save)
                 obj.save()
+            else:
+                raise ValidationError('Save already exists', code=status.HTTP_200_OK)
         except ObjectDoesNotExist:
             raise ValidationError('Artwork not found', code=status.HTTP_204_NO_CONTENT)
         except MultipleObjectsReturned:
