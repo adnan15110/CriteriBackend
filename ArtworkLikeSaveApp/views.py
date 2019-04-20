@@ -132,9 +132,9 @@ class ArtworkSaveModelViewSet(GenericViewSet, mixins.ListModelMixin, mixins.Crea
         try:
             if artwork_id and artwork_title:
                 artwork = Artwork.objects.get(pk=artwork_id, title=artwork_title)
-                objs = UserToArtworkModel.objects.get(activity_type=UserToArtworkModel.SAVE,
-                                                      user=request.user,
-                                                      artwork=artwork)
+                objs = UserToArtworkModel.objects.filter(activity_type=UserToArtworkModel.SAVE,
+                                                         user=request.user,
+                                                         artwork=artwork)
             if objs:
                 objs.delete()
                 return Response(status=status.HTTP_200_OK)
